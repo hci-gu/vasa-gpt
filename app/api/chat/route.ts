@@ -1,31 +1,62 @@
-import { kv } from '@vercel/kv'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
-import OpenAI from 'openai'
+import { OpenAIClient, AzureKeyCredential } from '@azure/openai'
+import { sendAnalytics } from '@/lib/analytics'
 
-import { nanoid } from '@/lib/utils'
+const { AZURE_OPENAI_API_KEY, AZURE_ENDPOINT, AZURE_SEARCH_KEY } = process.env
 
 export const runtime = 'edge'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+const openai = new OpenAIClient(
+  AZURE_ENDPOINT ?? 'https://gu-ai-006.openai.azure.com/',
+  new AzureKeyCredential(AZURE_OPENAI_API_KEY ?? '')
+)
 
 export async function POST(req: Request) {
-  const headers = req.headers
-  const json = await req.json()
+  const { messages } = await req.json()
+  const userId = req.headers.get('x-user-id') ?? ''
+  const chatId = req.headers.get('x-chat-id') ?? ''
+  const lastMessage = messages.length ? messages[messages.length - 1] : null
+  sendAnalytics({ ...lastMessage, userId, chatId })
 
-  console.log('userId', headers.get('x-user-id'))
-
-  const { messages } = json
-
-  const res = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+  const response = await openai.streamChatCompletions(
+    'GPT-4-Turbo-preview-gu-ai-006',
     messages,
-    temperature: 0.7,
-    stream: true
+    {
+      azureExtensionOptions: {
+        extensions: [
+          {
+            type: 'AzureCognitiveSearch',
+            endpoint: 'https://vasagpt.search.windows.net',
+            indexName: 'vasagpt',
+            key: AZURE_SEARCH_KEY,
+            semanticConfiguration: 'default',
+            queryType: 'vector',
+            inScope: true,
+            roleInformation:
+              'Prata med ett direkt tilltal som en tränare för längdskidåkare. Var positiv och uppmuntrande. Ge korta svar i flödande text. Använd inte punktlistor.\n\nAnvänd informationen från de bifogade lopprapporterna från Erik Wickström från år 2013 till år 2023 som kunskapsbas i alla dialoger. Använd alltid specifika berättelser från Erik Wickströms lopprapporter för att ge svar. Berätta hur Erik tänker. Använd ortsnamn eller namn på platser längs banan för att ge ditt svar mer kontext.\n\nAnvänd gärna exempel från Smågan, Mångsbodarna, Risberg, Evertsberg, Hökberg, Hemus, eller Eldris.',
+            strictness: 3,
+            topNDocuments: 5,
+            embeddingDependency: {
+              type: 'DeploymentName',
+              deploymentName: 'vasagpt-embedding-model'
+            }
+          }
+        ]
+      }
+    }
+  )
+
+  // Convert the response into a friendly text-stream
+  const stream = OpenAIStream(response, {
+    onFinal(completion) {
+      sendAnalytics({
+        role: 'assistant',
+        message: completion,
+        userId,
+        chatId
+      })
+    }
   })
-
-  const stream = OpenAIStream(res)
-
+  //   Respond with the stream
   return new StreamingTextResponse(stream)
 }

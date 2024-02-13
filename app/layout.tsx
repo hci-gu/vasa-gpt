@@ -6,19 +6,25 @@ import '@/app/globals.css'
 import { cn } from '@/lib/utils'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
-import { Header } from '@/components/header'
 
 export const metadata = {
-  metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
+  metadataBase: new URL('https://vasagpt.se'),
   title: {
-    default: 'Next.js AI Chatbot',
-    template: `%s - Next.js AI Chatbot`
+    default: 'VasaGPT'
   },
-  description: 'An AI-powered chatbot template built with Next.js and Vercel.',
+  description:
+    'VasaGPT låter dig föruppleva Vasaloppet genom att chatta med en AI.',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png'
+    icon: '/img/favicon.ico',
+    shortcut: '/img/favicon-16x16.png'
+  },
+  openGraph: {
+    type: 'website',
+    url: 'https://vasagpt.se',
+    title: 'VasaGPT',
+    description:
+      'VasaGPT låter dig föruppleva Vasaloppet genom att chatta med en AI.',
+    image: '/img/share.png'
   }
 }
 
@@ -50,10 +56,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
-          </div>
+          {children}
           <TailwindIndicator />
         </Providers>
       </body>

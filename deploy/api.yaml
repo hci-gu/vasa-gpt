@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vasagpt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vasagpt
+  template:
+    metadata:
+      labels:
+        app: vasagpt
+    spec:
+      containers:
+        - name: vasagpt
+          image: 'appademin/vasagpt:0.0.4'
+          ports:
+            - containerPort: 3000
+              name: web
+              protocol: TCP
+          env:
+          - name: NODE_ENV
+            value: production
+          - name: AZURE_OPENAI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: vasagpt-secret
+                key: azure-openai-api-key
+          - name: AZURE_SEARCH_KEY
+            valueFrom:
+              secretKeyRef:
+                name: vasagpt-secret
+                key: azure-search-key
+          - name: ANALYTICS_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: vasagpt-secret
+                key: analytics-api-key
+          - name: ANALYTICS_API
+            value: https://analytics.prod.appadem.in
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vasagpt-service
+spec:
+  selector:
+    app: vasagpt
+  ports:
+    - protocol: TCP
+      port: 3000
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: vasagpt-route
+  namespace: appademin
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  host: vasagpt.se
+  to:
+    kind: Service
+    name: vasagpt-service
+    weight: 100
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

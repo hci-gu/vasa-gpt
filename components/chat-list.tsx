@@ -1,13 +1,23 @@
 import { type Message } from 'ai'
 
 import { Separator } from '@/components/ui/separator'
-import { ChatMessage } from '@/components/chat-message'
+import { ChatMessage, ChatMessageLoading } from '@/components/chat-message'
 
 export interface ChatList {
   messages: Message[]
+  isLoading: boolean
 }
 
-export function ChatList({ messages }: ChatList) {
+function lastMessageIsFromUser(messages: Message[]) {
+  if (messages.length === 0) {
+    return false
+  }
+
+  const lastMessage = messages[messages.length - 1]
+  return lastMessage.role === 'user'
+}
+
+export function ChatList({ messages, isLoading }: ChatList) {
   if (!messages.length) {
     return null
   }
@@ -22,6 +32,12 @@ export function ChatList({ messages }: ChatList) {
           )}
         </div>
       ))}
+      {isLoading && lastMessageIsFromUser(messages) && (
+        <div>
+          <Separator className="my-4 md:my-8" />
+          <ChatMessageLoading />
+        </div>
+      )}
     </div>
   )
 }

@@ -1,7 +1,29 @@
 'use client'
 
 import { type Chat } from '@/lib/types'
+import { nanoid } from 'nanoid'
 import { create } from 'zustand'
+
+export function getUserId() {
+  let userId = localStorage.getItem('userId')
+
+  if (!userId) {
+    userId = nanoid()
+    localStorage.setItem('userId', userId)
+  }
+
+  return userId
+}
+
+export function userHasAcceptedLogging() {
+  const hasAccepted = localStorage.getItem('loggingAccepted')
+
+  return hasAccepted === 'true'
+}
+
+export function setLoggingAccepted() {
+  localStorage.setItem('loggingAccepted', 'true')
+}
 
 export function getChatsFromLocalStorage() {
   const data = localStorage.getItem('chats')
@@ -32,12 +54,10 @@ export const state = create(set => ({
   },
   removeChat: ({ id }: { id: string }) => {
     const chats = getChatsFromLocalStorage()
-    console.log('remove chat', id, chats)
 
     const filtered = chats.filter((chat: Chat) => chat.id !== id)
 
     localStorage.setItem('chats', JSON.stringify(filtered))
-    console.log('filtered', filtered)
     set({ chats: filtered })
   },
   clearChats: () => {

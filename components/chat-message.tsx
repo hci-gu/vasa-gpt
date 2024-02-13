@@ -78,3 +78,23 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
     </div>
   )
 }
+
+export function ChatMessageLoading({ ...props }) {
+  return (
+    <div
+      className={cn('group relative mb-4 flex items-start md:-ml-12')}
+      {...props}
+    >
+      <div className="flex size-8 shrink-0 select-none items-center justify-center rounded-md border shadow bg-primary text-primary-foreground">
+        <IconOpenAI />
+      </div>
+      <div className="flex-1 px-1 ml-4 space-y-2 overflow-hidden">
+        <div className="prose prose-p:leading-relaxed prose-pre:p-0">
+          <p className="mb-2 last:mb-0">
+            <span className="mt-1 cursor-default animate-pulse">▍</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}

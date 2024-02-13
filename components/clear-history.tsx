@@ -53,7 +53,7 @@ export function ClearHistory({
               startTransition(() => {
                 clearChats()
                 setOpen(false)
-                router.push('/')
+                router.push('/chat')
               })
             }}
           >
