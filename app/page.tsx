@@ -98,7 +98,7 @@ export default function IndexPage() {
           <Message
             className="invisible lg:visible"
             style={{ left: '30%', top: '68%' }}
-            text="Får man ta med egna skidor?"
+            text="Vad gör man om en stav bryts?"
             delay={2}
           />
           <Message
@@ -111,7 +111,7 @@ export default function IndexPage() {
           <Message
             className="invisible lg:visible"
             style={{ left: '80%', top: '30%' }}
-            text="Stängde jag av ugnen?"
+            text="Slangbälte eller flaskbälte?"
             delay={4.2}
           />
           <Message

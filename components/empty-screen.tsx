@@ -6,16 +6,16 @@ import { IconArrowRight } from '@/components/ui/icons'
 
 const exampleMessages = [
   {
-    heading: 'Hur laddar jag upp inför loppet?',
-    message: 'Hur laddar jag upp inför loppet?'
+    heading: 'Är Risbergsbacken brant?',
+    message: 'Är Risbergsbacken brant??'
   },
   {
-    heading: 'Vad ska jag äta innan Vasaloppet?',
-    message: 'Vad ska jag äta innan?'
+    heading: 'Ska man välja höger eller vänster spår på startgärdet?',
+    message: 'Ska man välja höger eller vänster spår på startgärdet?'
   },
   {
-    heading: 'Vad för utrustning behöver jag?',
-    message: `Vilken utrustning behöver jag?`
+    heading: 'Hur ska uppvärmning innan start gå till?',
+    message: 'Hur ska uppvärmning innan start gå till?'
   }
 ]
 

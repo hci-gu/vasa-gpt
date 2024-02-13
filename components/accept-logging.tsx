@@ -57,6 +57,11 @@ export function AcceptLogging() {
         <AlertDialogHeader>
           <AlertDialogTitle>Innan du använder VasaGPT</AlertDialogTitle>
           <AlertDialogDescription>
+            VasaGPT är en forskningsprototyp från Göteborgs universitet, skapad
+            av Appademin och baserad på race reports av Erik Wickström och
+            Niklas Bergh.
+            <br></br>
+            <br></br>
             När du chattar med VasaGPT så loggas varje meddelande, genom att
             fortsätta går du med att att dina chatmeddelanden loggas.
             <CheckboxWithText

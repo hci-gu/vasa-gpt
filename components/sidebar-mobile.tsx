@@ -22,6 +22,16 @@ export function SidebarMobile({ children }: SidebarMobileProps) {
       </SheetTrigger>
       <SheetContent className="inset-y-0 flex h-auto w-[300px] flex-col p-0 pt-8">
         <Sidebar className="flex">{children}</Sidebar>
+        <div className="fixed bottom-20 left-5">
+          <p
+            className="text-xs text-gray-500 bg-card p-4 rounded-lg shadow"
+            style={{ width: 225 }}
+          >
+            VasaGPT är en forskningsprototyp från Göteborgs universitet, skapad
+            av Appademin och baserad på race reports av Erik Wickström och
+            Niklas Bergh.
+          </p>
+        </div>
       </SheetContent>
     </Sheet>
   )

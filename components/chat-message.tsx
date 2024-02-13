@@ -8,11 +8,15 @@ import remarkMath from 'remark-math'
 import { cn } from '@/lib/utils'
 import { CodeBlock } from '@/components/ui/codeblock'
 import { MemoizedReactMarkdown } from '@/components/markdown'
-import { IconOpenAI, IconUser } from '@/components/ui/icons'
+import { IconOpenAI, IconSpinner, IconUser } from '@/components/ui/icons'
 import { ChatMessageActions } from '@/components/chat-message-actions'
 
 export interface ChatMessageProps {
   message: Message
+}
+
+function stripReferences(message: string) {
+  return message.replace(/\s*\[doc\d+\]/g, '')
 }
 
 export function ChatMessage({ message, ...props }: ChatMessageProps) {
@@ -71,7 +75,7 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
             }
           }}
         >
-          {message.content}
+          {stripReferences(message.content)}
         </MemoizedReactMarkdown>
         <ChatMessageActions message={message} />
       </div>
@@ -88,12 +92,9 @@ export function ChatMessageLoading({ ...props }) {
       <div className="flex size-8 shrink-0 select-none items-center justify-center rounded-md border shadow bg-primary text-primary-foreground">
         <IconOpenAI />
       </div>
-      <div className="flex-1 px-1 ml-4 space-y-2 overflow-hidden">
-        <div className="prose prose-p:leading-relaxed prose-pre:p-0">
-          <p className="mb-2 last:mb-0">
-            <span className="mt-1 cursor-default animate-pulse">▍</span>
-          </p>
-        </div>
+
+      <div className="p-2 ml-4 flex scale-125">
+        <IconSpinner className="text-gray-500" />
       </div>
     </div>
   )
