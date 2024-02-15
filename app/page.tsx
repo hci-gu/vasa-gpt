@@ -180,9 +180,9 @@ export default function IndexPage() {
           <ScrollForMoreArrow />
         </div>
       </div>
-      <div className="mt-24 pb-64">
-        <h2 className="mx-auto w-1/2 text-2xl font-bold">Om</h2>
-        <p className="text-gray-500 w-1/2 mx-auto mt-2 text-justify">
+      <div className="mt-24 pb-64 mx-auto w-5/6 lg:w-1/2">
+        <h2 className="text-2xl font-bold">Om</h2>
+        <p className="text-gray-500 mt-2 text-justify">
           VasaGPT är en forskningsprototyp där användaren kan ha en dialog om
           frågor, funderingar och förväntningar inför att åka Vasaloppet 90km.
           VasaGPT baserar sina svar på berättelserna från Erik Wickström och
@@ -190,14 +190,14 @@ export default function IndexPage() {
           du ställer. Skriv därför inte in personuppgifter, eller annan känslig
           information.
         </p>
-        <p className="text-gray-500 w-1/2 mx-auto mt-4 text-justify">
+        <p className="text-gray-500 mt-4 text-justify">
           Hör gärna av dig om du har frågor:{' '}
           <a href="mailto:jonas.landgren@gu.se" className="text-blue-500">
             jonas.landgren@gu.se
           </a>{' '}
           : Göteborgs universitet, 2024
         </p>
-        <p className="text-gray-500 w-1/2 mx-auto mt-4 text-justify">
+        <p className="text-gray-500 mt-4 text-justify">
           Skapad av{' '}
           <a href="https://hci.gu.se/appademin" className="text-blue-500">
             Appademin
