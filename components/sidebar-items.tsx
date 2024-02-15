@@ -7,21 +7,30 @@ import { state } from '@/app/actions'
 
 import { SidebarActions } from '@/components/sidebar-actions'
 import { SidebarItem } from '@/components/sidebar-item'
+import { User } from '@/lib/analytics'
+import { IconUser } from './ui/icons'
 
 interface SidebarItemsProps {
-  chats?: Chat[]
+  user?: User
 }
 
-export function SidebarItems({ chats }: SidebarItemsProps) {
-  const removeChat = state(
-    (s: any) => s.removeChat,
-    (prev: any, next: any) => prev.length == next.length
-  )
-  if (!chats?.length) return null
+function formatDateString(date?: string) {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString()
+}
+
+export function SidebarItems({ user }: SidebarItemsProps) {
+  if (!user) return null
 
   return (
     <AnimatePresence>
-      {chats.map(
+      <div className="flex p-2">
+        <IconUser className="mr-2" />
+        <div className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all">
+          User with {user.chats.length} chats
+        </div>
+      </div>
+      {user.chats.map(
         (chat, index) =>
           chat && (
             <motion.div
@@ -32,7 +41,13 @@ export function SidebarItems({ chats }: SidebarItemsProps) {
               }}
             >
               <SidebarItem index={index} chat={chat}>
-                <SidebarActions chat={chat} removeChat={removeChat} />
+                <div>
+                  {formatDateString(
+                    chat.messages[
+                      chat.messages.length - 1
+                    ]?.createdAt?.toString()
+                  )}
+                </div>
               </SidebarItem>
             </motion.div>
           )

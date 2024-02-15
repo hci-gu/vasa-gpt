@@ -3,6 +3,7 @@
 import { notFound } from 'next/navigation'
 import { Chat } from '@/components/chat'
 import { state } from '@/app/actions'
+import { useChat } from '@/lib/hooks/use-users'
 
 export interface ChatPageProps {
   params: {
@@ -11,14 +12,10 @@ export interface ChatPageProps {
 }
 
 export default function ChatPage({ params }: ChatPageProps) {
-  const chats = state(
-    (s: any) => s.chats,
-    (prev: any, next: any) => prev.chats?.length === next.chats?.length
-  )
-  const chat = chats?.find((chat: any) => chat.id === params.id)
+  const chat = useChat(params.id)
 
   if (!chat) {
-    notFound()
+    return <div>laddar...</div>
   }
 
   return <Chat id={chat.id} initialMessages={chat.messages} />
