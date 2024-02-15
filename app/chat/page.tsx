@@ -1,16 +1,8 @@
-'use client'
-
-import { nanoid } from '@/lib/utils'
-import { Chat } from '@/components/chat'
-import { userHasAcceptedLogging } from '../actions'
-import { AcceptLogging } from '@/components/accept-logging'
+import { sendPageLoad } from '@/lib/analytics'
+import ChatPage from '@/components/chat-page'
 
 export default function IndexPage() {
-  const id = nanoid()
+  sendPageLoad('/chat')
 
-  if (!userHasAcceptedLogging()) {
-    return <AcceptLogging />
-  }
-
-  return <Chat id={id} />
+  return <ChatPage />
 }

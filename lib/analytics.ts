@@ -1,3 +1,5 @@
+'use server'
+
 const API_KEY = process.env.ANALYTICS_API_KEY ?? ''
 const ANALYTICS_API = process.env.ANALYTICS_API ?? 'http://localhost:3000'
 
@@ -14,7 +16,6 @@ export async function sendAnalytics(payload: AnalyticsPayload): Promise<void> {
       'Content-Type': 'application/json',
       'x-api-key': API_KEY
     }
-    console.log(`${ANALYTICS_API}/vasagpt/chats/data`)
     await fetch(`${ANALYTICS_API}/vasagpt/chats/data`, {
       method: 'POST',
       headers,
@@ -23,5 +24,22 @@ export async function sendAnalytics(payload: AnalyticsPayload): Promise<void> {
     console.log('Analytics payload sent successfully')
   } catch (error) {
     console.error('Failed to send analytics payload:', error)
+  }
+}
+
+export async function sendPageLoad(page: string): Promise<void> {
+  try {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY
+    }
+    await fetch(`${ANALYTICS_API}/vasagpt/pages/data`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ page, timestamp: new Date() })
+    })
+    console.log(`Page load ${page}`)
+  } catch (error) {
+    console.error('Failed to send page load:', error)
   }
 }
