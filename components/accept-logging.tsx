@@ -33,7 +33,7 @@ function CheckboxWithText({
           htmlFor="terms1"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Jag går med på att mina chatmeddelanden loggas
+          Jag går med på att mina chatmeddelanden sparas
         </label>
       </div>
     </div>
@@ -62,8 +62,9 @@ export function AcceptLogging() {
             Niklas Bergh.
             <br></br>
             <br></br>
-            När du chattar med VasaGPT så loggas varje meddelande, genom att
-            fortsätta går du med att att dina chatmeddelanden loggas.
+            När du chattar med VasaGPT så sparas varje meddelande. Skriv därför
+            inte in personuppgifter, eller annan känslig information. Genom att
+            fortsätta går du med att att dina chatmeddelanden sparas.
             <CheckboxWithText
               onChange={() => setChecked(!checked)}
               value={checked}
