@@ -27,7 +27,7 @@ export async function POST(req: Request) {
           {
             type: 'AzureCognitiveSearch',
             endpoint: 'https://vasagpt.search.windows.net',
-            indexName: 'vasagpt',
+            indexName: 'vasagpt-2',
             key: AZURE_SEARCH_KEY,
             semanticConfiguration: 'default',
             queryType: 'vector',
