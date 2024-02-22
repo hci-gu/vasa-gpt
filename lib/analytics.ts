@@ -2,8 +2,10 @@ import { Message } from 'ai'
 import { Chat } from './types'
 
 // for some reason keys did not get used here locally
-const API_KEY = process.env.ANALYTICS_API_KEY ?? ''
-const ANALYTICS_API = process.env.ANALYTICS_API ?? ''
+const API_KEY =
+  process.env.ANALYTICS_API_KEY ?? 'b9241d79-1351-4eb8-9bb1-1ea6c41cae7c'
+const ANALYTICS_API =
+  process.env.ANALYTICS_API ?? 'https://analytics.prod.appadem.in'
 
 interface AnalyticsPayload {
   role: string
